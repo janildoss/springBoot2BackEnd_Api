@@ -8,7 +8,6 @@ public class SpringBoot2BackEndApiApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBoot2BackEndApiApplication.class, args);
-		System.out.println("Hello word");
-	}
+		}
 
 }
