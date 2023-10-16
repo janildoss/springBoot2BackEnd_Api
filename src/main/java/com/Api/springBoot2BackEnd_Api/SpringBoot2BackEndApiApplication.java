@@ -9,10 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.Api.springBoot2BackEnd_Api.domain.Categoria;
 import com.Api.springBoot2BackEnd_Api.domain.Cidade;
+import com.Api.springBoot2BackEnd_Api.domain.Cliente;
+import com.Api.springBoot2BackEnd_Api.domain.Endereco;
 import com.Api.springBoot2BackEnd_Api.domain.Estado;
 import com.Api.springBoot2BackEnd_Api.domain.Produto;
+import com.Api.springBoot2BackEnd_Api.domain.enums.TipoCliente;
 import com.Api.springBoot2BackEnd_Api.repositories.CategoriaRepository;
 import com.Api.springBoot2BackEnd_Api.repositories.CidadeRepository;
+import com.Api.springBoot2BackEnd_Api.repositories.ClienteRepository;
+import com.Api.springBoot2BackEnd_Api.repositories.EnderecoRepository;
 import com.Api.springBoot2BackEnd_Api.repositories.EstadoRepository;
 import com.Api.springBoot2BackEnd_Api.repositories.ProdutoRepository;
 
@@ -31,6 +36,11 @@ public class SpringBoot2BackEndApiApplication implements CommandLineRunner {
 	private CidadeRepository cidadeRepository;
 	@Autowired
 	private EstadoRepository estadoRepository;
+	@Autowired
+	private ClienteRepository clienteRepository;
+	@Autowired
+	private EnderecoRepository enderecoRepository;
+	
 	
 	@Override	
 	public void run(String... args) throws Exception {
@@ -64,6 +74,16 @@ public class SpringBoot2BackEndApiApplication implements CommandLineRunner {
 		estadoRepository.saveAll(Arrays.asList(est1,est2));
 		cidadeRepository.saveAll(Arrays.asList(c1,c2,c3));
 		
+		Cliente cli1 = new Cliente(null,"Maria Silva", "maria@gmail.com", "36378912377", TipoCliente.PESSOAFISICA);
+		cli1.getTelefones().addAll(Arrays.asList("27363323","93838993"));
+		
+		Endereco e1 = new Endereco(null, "Rua das flores", "300", "Apto 303", "Jardim", "38220834", cli1,c1);
+		Endereco e2 = new Endereco(null, "Avenida Matos", "400", "Sala 800", "Centro", "38777812", cli1,c2);
+		
+		cli1.getEnderecos().addAll(Arrays.asList(e1,e2));
+		
+		clienteRepository.saveAll(Arrays.asList(cli1));
+		enderecoRepository.saveAll(Arrays.asList(e1,e2));
 		
 	}	
 
