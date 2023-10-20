@@ -12,6 +12,7 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
 import com.Api.springBoot2BackEnd_Api.domain.enums.EstadoPagamento;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
 public abstract class Pagamento   implements Serializable {
@@ -21,6 +22,7 @@ public abstract class Pagamento   implements Serializable {
 	private Integer estado;
 	
 	//garantir que o id do pedido seja opmesmo do pagamento
+	@JsonBackReference
 	@OneToOne
 	@JoinColumn(name="pedido_id")
 	@MapsId
