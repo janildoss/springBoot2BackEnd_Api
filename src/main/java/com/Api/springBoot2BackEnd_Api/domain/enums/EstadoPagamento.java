@@ -1,7 +1,7 @@
 package com.Api.springBoot2BackEnd_Api.domain.enums;
 
 public enum EstadoPagamento {
-	PENDENTO(1,"Pendente"),
+	PENDENTE(1,"Pendente"),
 	QUITADO(2,"Quitado"),
 	CANCELADO(3,"Cancelado");
 
