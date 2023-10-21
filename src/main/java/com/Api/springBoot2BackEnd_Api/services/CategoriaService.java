@@ -20,7 +20,7 @@ public class CategoriaService {
 		return obj.orElseThrow(null) ;
 	}*/
 	//Tratamento para quando pesquisar categoria nao existente POR ID
-		public Categoria buscar(Integer id) {
+		public Categoria find(Integer id) {
 			Optional<Categoria> obj = repo.findById(id);
 			return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName()));
 		}	
@@ -28,5 +28,14 @@ public class CategoriaService {
 		public Categoria insert(Categoria obj) {
 			obj.setId(null);
 			return repo.save(obj);
-			}
+		}
+		
+		//No update se o id for null faz um insert
+			public Categoria update(Categoria obj) {
+			find(obj.getId());
+			return repo.save(obj);
+		}
+		
+		
+		
 }

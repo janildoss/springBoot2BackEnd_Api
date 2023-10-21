@@ -20,7 +20,7 @@ public class PedidoService {
 		return obj.orElseThrow(null) ;
 	}*/
 	//Tratamento para quando pesquisar categoria nao existente POR ID
-		public Pedido buscar(Integer id) {
+		public Pedido find(Integer id) {
 			Optional<Pedido> obj = repo.findById(id);
 			return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id + ", Tipo: " + Pedido.class.getName()));
 		}
