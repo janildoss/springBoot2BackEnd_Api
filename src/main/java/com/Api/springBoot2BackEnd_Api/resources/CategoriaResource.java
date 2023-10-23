@@ -1,6 +1,8 @@
 package com.Api.springBoot2BackEnd_Api.resources;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.Api.springBoot2BackEnd_Api.domain.Categoria;
+import com.Api.springBoot2BackEnd_Api.dto.CategoriaDTO;
 import com.Api.springBoot2BackEnd_Api.services.CategoriaService;
 
 @RestController
@@ -49,6 +52,15 @@ public class CategoriaResource {
 	   	service.delete(id);
     	return ResponseEntity.noContent().build();
     } 
+    
+    //Buscar todas as categorias
+    @GetMapping() 
+    public ResponseEntity<List<CategoriaDTO>> findAll(){
+    	List<Categoria> list = service.findAll();
+    	//Converte uma lista para outra lista
+    	List<CategoriaDTO> listDto = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
+    	return ResponseEntity.ok().body(listDto);    	
+    }
     
     
     
