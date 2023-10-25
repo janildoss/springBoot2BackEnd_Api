@@ -38,12 +38,12 @@ public class CategoriaService {
 		}
 		
 		//No update se o id for null faz um insert
-			public Categoria update(Categoria obj) {
+	    public Categoria update(Categoria obj) {
 			find(obj.getId());
 			return repo.save(obj);
 		}
 		
-			public void delete(Integer id) {
+		 public void delete(Integer id) {
 				find(id);
 				try {
 					repo.deleteById(id);					
@@ -52,18 +52,18 @@ public class CategoriaService {
 					throw new DataIntegrityException("Não é possivel excluir uma categoria que possui produtos.");
 				}
 				repo.deleteById(id);
-			}		
+		}		
 			
-			public List<Categoria> findAll(){
+		public List<Categoria> findAll(){
 				return repo.findAll();				
-			}
+		}
 			
-			public Page<Categoria> findPage(Integer page, Integer linesPerpage, String orderBy, String direction){
+		public Page<Categoria> findPage(Integer page, Integer linesPerpage, String orderBy, String direction){
 				PageRequest pageRequest = PageRequest.of(page, linesPerpage, Direction.valueOf(direction),orderBy);
 				return repo.findAll(pageRequest);
-			}
+		}
 			//Metodo auxiliar que instancia um Categoria Dto
-			public Categoria fromDTO(CategoriaDTO objDto) {
+		public Categoria fromDTO(CategoriaDTO objDto) {
 				return new Categoria(objDto.getId(),objDto.getNome());
-			}
+		}
 }
