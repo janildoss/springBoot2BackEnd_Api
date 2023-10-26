@@ -9,10 +9,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.Api.springBoot2BackEnd_Api.domain.Cidade;
 import com.Api.springBoot2BackEnd_Api.domain.Cliente;
+import com.Api.springBoot2BackEnd_Api.domain.Endereco;
+import com.Api.springBoot2BackEnd_Api.domain.enums.TipoCliente;
 import com.Api.springBoot2BackEnd_Api.dto.ClienteDTO;
+import com.Api.springBoot2BackEnd_Api.dto.ClienteNewDTO;
 import com.Api.springBoot2BackEnd_Api.repositories.ClienteRepository;
+import com.Api.springBoot2BackEnd_Api.repositories.EnderecoRepository;
 import com.Api.springBoot2BackEnd_Api.services.exceptions.DataIntegrityException;
 import com.Api.springBoot2BackEnd_Api.services.exceptions.ObjectNotFoundException;
 
@@ -20,6 +26,9 @@ import com.Api.springBoot2BackEnd_Api.services.exceptions.ObjectNotFoundExceptio
 public class ClienteService {
 	@Autowired
 	private ClienteRepository repo;
+	@Autowired
+	private EnderecoRepository enderecoRepository;
+	
 	
 	/*public Cliente buscar(Integer id) {
 		
@@ -30,6 +39,14 @@ public class ClienteService {
 		public Cliente find(Integer id) {
 			Optional<Cliente> obj = repo.findById(id);
 			return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
+		}
+		
+		@Transactional
+		public Cliente insert(Cliente obj) {
+			obj.setId(null);					
+			repo.save(obj);			
+	        enderecoRepository.saveAll(obj.getEnderecos());
+			return obj;		
 		}
 		
 		//No update se o id for null faz um insert
@@ -58,11 +75,28 @@ public class ClienteService {
 				PageRequest pageRequest = PageRequest.of(page, linesPerpage, Direction.valueOf(direction),orderBy);
 				return repo.findAll(pageRequest);
 		}
-			//Metodo auxiliar que instancia um Cliente Dto
+		//Metodo auxiliar que instancia um Cliente Dto
 		public Cliente fromDTO(ClienteDTO objDto) {
 				return new Cliente(objDto.getId(), objDto.getNome(), objDto.getEmail(),null,null);
 				//throw new UnsupportedOperationException();
 		}
+		
+		public Cliente fromDTO(ClienteNewDTO objDto) {
+			Cliente  cli = new Cliente(null, objDto.getNome(), objDto.getEmail(), objDto.getCpfOuCnpj(), TipoCliente.toEnum(objDto.getTipo()));
+			Cidade   cid = new Cidade(objDto.getCidadeId(),null,null);			
+			Endereco end = new Endereco(null,objDto.getLogradouro(),objDto.getNumero(), objDto.getComplemento(),objDto.getBairro(),objDto.getCep(),cli, cid);			
+			cli.getEnderecos().add(end);			
+			cli.getTelefones().add(objDto.getTelefone1());
+			
+			if(objDto.getTelefone2()!=null) {
+				cli.getTelefones().add(objDto.getTelefone2());
+			}
+			if(objDto.getTelefone3()!=null) {
+				cli.getTelefones().add(objDto.getTelefone3());
+			}
+			
+			return cli;		
+    	}
 		
 		private void updateData(Cliente newObj,Cliente obj) {			
 			newObj.setNome(obj.getNome());

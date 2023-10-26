@@ -18,7 +18,7 @@ import javax.persistence.OneToMany;
 import com.Api.springBoot2BackEnd_Api.domain.enums.TipoCliente;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
-public class Cliente   implements Serializable {
+public class Cliente implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
