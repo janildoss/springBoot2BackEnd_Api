@@ -54,7 +54,7 @@ public class Pedido implements Serializable {
 		this.cliente = cliente;
 		this.enderecoDeEntrega = enderecoDeEntrega;
 	}
-	
+	//operacao para inserir valor totao do pedido
 	public double getValorTotal() {
 		double soma = 0.0;
 		for (ItemPedido ip : itens) {
