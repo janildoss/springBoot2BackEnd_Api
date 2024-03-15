@@ -23,7 +23,7 @@ public abstract class Pagamento   implements Serializable {
 	private Integer id;
 	private Integer estado;
 	
-	//garantir que o id do pedido seja opmesmo do pagamento
+	//garantir que o id do pedido seja o mesmo do pagamento
 	@JsonIgnore
 	@OneToOne
 	@JoinColumn(name="pedido_id")
