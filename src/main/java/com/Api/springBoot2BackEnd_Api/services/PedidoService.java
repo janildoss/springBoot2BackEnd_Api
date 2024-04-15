@@ -59,15 +59,15 @@ public class PedidoService {
 			pagamentoRepository.save(obj.getPagamento());
 			for (ItemPedido ip : obj.getItens()) {
 				ip.setDesconto(0.0);
-				ip.setProduto(produtoService.find(ip.getProduto().getId()));
-				//ip.setPreco(produtoService.find(ip.getProduto().getId()).getPreco());
+				ip.setProduto(produtoService.find(ip.getProduto().getId()));				
 				ip.setPreco(ip.getProduto().getPreco());
 				ip.setPedido(obj);
 			}
-			//itemPedidoRepository.save(obj.getItens());
+			
 			itemPedidoRepository.saveAll(obj.getItens());  
-			//System.out.println(obj);	
-			emailService.sendOrderConfirmationEmail(obj);
+			
+			//emailService.sendOrderConfirmationEmail(obj);
+			emailService.sendOrderConfirmationHtmlEmail(obj);
 			return obj;	
 			
 		}
